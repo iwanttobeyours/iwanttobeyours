@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Letter 💕</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ================= GOOGLE ANALYTICS ================= -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-M9Q82GGYXF"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-M9Q82GGYXF');
+</script>
+
+<!-- ================= EMAILJS ================= -->
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+(function(){
+    emailjs.init("NYk14S6l9OvsXLgy"); 
+})();
+</script>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100svh;
+    background-image: url("Images/background.jpg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.container {
+    text-align: center;
+    opacity: 0;
+    transform: translateY(200px);
+    animation: flyUp 2.5s ease-out forwards;
+    max-width: 360px;
+    padding: 12px;
+}
+
+.balloon img {
+    width: 140px;
+}
+
+.string {
+    width: 2px;
+    height: 35px;
+    background: #555;
+    margin: 0 auto;
+}
+
+.content {
+    background: rgba(255, 255, 255, 0.96);
+    padding: 22px 18px;
+    border-radius: 18px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+}
+
+.letter img {
+    width: 160px;
+    margin: 15px auto;
+}
+
+.buttons {
+    margin-top: 20px;
+    height: 60px;
+    position: relative;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    font-size: 15px;
+    cursor: pointer;
+    position: absolute;
+    transition: transform 0.3s ease;
+}
+
+#yesBtn {
+    background: #ff69b4;
+    color: white;
+    left: 20px;
+    z-index: 2;
+}
+
+#noBtn {
+    background: #ccc;
+    right: 20px;
+}
+
+@keyframes flyUp {
+    from { transform: translateY(200px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@media (max-width: 480px) {
+    .balloon img { width: 110px; }
+    .letter img { width: 130px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="balloon">
+        <img src="Images/balloon.jpg" alt="Balloon">
+    </div>
+
+    <div class="string"></div>
+
+    <div class="content">
+        <h2>Do you like this? 💕</h2>
+        <p>This balloon came with a little question just for you 💌</p>
+
+        <div class="letter">
+            <img src="Images/images.png" alt="Letter">
+        </div>
+
+        <div class="buttons">
+            <button id="yesBtn">Yes 💖</button>
+            <button id="noBtn">No 😅</button>
+        </div>
+    </div>
+</div>
+
+<script>
+window.addEventListener("load", function() {
+
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+
+    /* Move NO button */
+    function moveButton() {
+        const x = Math.random() * 160 - 80;
+        const y = Math.random() * 80 - 40;
+        noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    noBtn.addEventListener("mouseover", moveButton);
+    noBtn.addEventListener("touchstart", moveButton);
+
+    /* YES button click */
+    yesBtn.addEventListener("click", function() {
+
+        yesBtn.disabled = true;
+
+        /* Safe Google Analytics */
+        if (typeof gtag === "function") {
+            gtag('event', 'yes_clicked', {
+                event_category: 'interaction',
+                event_label: 'Balloon Page'
+            });
+        }
+
+        const templateParams = {
+            name: "Balloon Page",
+            title: "YES Button Clicked 💖",
+            email: "notification@balloon.page",
+            time: new Date().toLocaleString()
+        };
+
+        /* Send email but DO NOT block redirect */
+        emailjs.send(
+            "service_sax9tgk",
+            "template_za0vc1o",
+            templateParams
+        )
+        .catch(function(error) {
+            console.error("Email failed:", error);
+        });
+
+        /* Always redirect after small delay */
+        setTimeout(function() {
+            window.location.href = "hey.html";
+        }, 500);
+    });
+
+});
+</script>
+
+</body>
+</html>
